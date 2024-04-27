@@ -9,8 +9,6 @@ export const FooterContainer = styled.footer`
   align-items: center;
   background-color: ${colors.footer};
   transition: background-color 0.4s ease;
-  position: absolute;
-  bottom: 0;
 
   p {
     font-weight: 400;

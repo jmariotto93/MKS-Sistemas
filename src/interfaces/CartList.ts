@@ -1,11 +1,15 @@
 export interface CardList {
-    id: number
-    name: string
-    brand: string
-    description: string
-    photo: string
-    price: string
-    createdAt: string
-    updatedAt: string
-  }
-  
+  id: number;
+  name: string;
+  brand: string;
+  description: string;
+  photo: string;
+  price: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Products {
+  count: number;
+  products: CardList[];
+}

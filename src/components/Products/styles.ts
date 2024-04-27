@@ -2,14 +2,11 @@ import styled from "styled-components";
 import { colors } from "../../theme/theme";
 
 export const ContainerMain = styled.div`
-  width: 90%;
-  height: 100%;
   margin: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: 34px;
 
   @media screen and (max-width: 945px) {
     display: flex;
