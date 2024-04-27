@@ -12,6 +12,7 @@ export const CartList = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
+  position: relative;
 
   img {
     width: 46px;

@@ -11,12 +11,27 @@ import {
 } from "./styles";
 import { useProductsQuery } from "../../hooks/useProducts";
 import { motion } from "framer-motion";
+import { CardList } from "../../interfaces/CartList";
 
-export const Products = () => {
+interface ProdocutsProps {
+  setcardItems: React.Dispatch<React.SetStateAction<CardList[] | []>>;
+}
+
+export const Products = ({ setcardItems }: ProdocutsProps) => {
   const { data, isLoading, isError } = useProductsQuery();
 
   // if (isLoading) return <div>Carregando...</div>;
   if (isError) return <div>Ocorreu um erro ao buscar os produtos</div>;
+
+  function handleAddProductToCard(product: CardList) {
+    setcardItems((prev) => {
+      if (prev) {
+        return [...prev, product];
+      } else {
+        return [product];
+      }
+    });
+  }
 
   return (
     <motion.div
@@ -55,7 +70,9 @@ export const Products = () => {
                       </DescriptionProduct>
                     </div>
                   </Product>
-                  <ButtonAddCart>
+                  <ButtonAddCart
+                    onClick={() => handleAddProductToCard(product)}
+                  >
                     <FiShoppingBag className="icon-shopping-bag" /> Comprar
                   </ButtonAddCart>
                 </div>

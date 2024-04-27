@@ -1,12 +1,26 @@
 import { IoMdCloseCircle } from "react-icons/io";
 import { CartContainer, TitleCart } from "./styles";
+import { CardList } from "../../interfaces/CartList";
 import { CartItem } from "../CartItem/CartItem";
 
 interface CartProps {
   handleOpenCardModal(): void;
+  cardItems: CardList[] | undefined;
+  setcardItems: React.Dispatch<React.SetStateAction<CardList[] | []>>;
 }
 
-export const Cart: React.FC<CartProps> = ({ handleOpenCardModal }) => {
+export const Cart: React.FC<CartProps> = ({
+  handleOpenCardModal,
+  cardItems,
+  setcardItems,
+}) => {
+  function handleDeleteItemFromCard(productId: number) {
+    const result =
+      cardItems?.filter((product) => product.id !== productId) || [];
+
+    setcardItems(result);
+  }
+
   return (
     <CartContainer
       initial={{ opacity: 0, translateX: 486 }}
@@ -24,9 +38,30 @@ export const Cart: React.FC<CartProps> = ({ handleOpenCardModal }) => {
 
       <div
         className="custom-scroll"
-        style={{ overflow: "auto", height: "60vh", marginRight: 24 }}
+        style={{ overflow: "auto", height: "57vh", marginRight: 24 }}
       >
-        <CartItem />
+        {cardItems?.map((card, index) => (
+          <CartItem
+            handleDeleteItemFromCard={handleDeleteItemFromCard}
+            key={`${card.id}${index}`}
+            card={card}
+          />
+        ))}
+
+        {cardItems?.length === 0 && <p>Nenhum item no carrinho</p>}
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          paddingLeft: 47,
+          paddingRight: 60,
+        }}
+      >
+        <span>Total</span>
+
+        <span>teste</span>
       </div>
 
       <div
@@ -42,6 +77,7 @@ export const Cart: React.FC<CartProps> = ({ handleOpenCardModal }) => {
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
+          cursor: "pointer",
         }}
       >
         Finalizar compra

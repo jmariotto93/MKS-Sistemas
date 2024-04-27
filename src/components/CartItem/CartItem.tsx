@@ -1,8 +1,13 @@
+import { CardList } from "../../interfaces/CartList";
 import { CartList } from "./styles";
-
 import { useState } from "react";
 
-export const CartItem = () => {
+interface CardItemProps {
+  card: CardList;
+  handleDeleteItemFromCard(productId: number): void;
+}
+
+export const CartItem = ({ card, handleDeleteItemFromCard }: CardItemProps) => {
   const [count, setCount] = useState(0);
 
   const decrement = () => {
@@ -10,14 +15,12 @@ export const CartItem = () => {
       setCount((count) => count - 1);
     }
   };
+
   return (
     <CartList>
-      <img
-        src="https://cdn.shoppub.io/cdn-cgi/image/w=1000,h=1000,q=80,f=auto/oficinadosbits/media/uploads/produtos/foto/ljqsbgjg/file.png"
-        alt=""
-      />
+      <img src={card.photo} alt="" />
       <div className="container-subTitle">
-        <h4>Apple Watch Series 4</h4>
+        <h4>{card.name}</h4>
       </div>
 
       <div className="containerCount">
@@ -37,9 +40,30 @@ export const CartItem = () => {
             </button>
           </div>
           <div className="container-price-item">
-            <p className="price-item-cart">R$450</p>
+            <p className="price-item-cart">R${Number(card.price).toFixed(0)}</p>
           </div>
         </div>
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          right: -6,
+          top: -6,
+          width: 18,
+          height: 18,
+          color: "white",
+          backgroundColor: "#000",
+          display: "inline-flex",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 25,
+          fontSize: 12,
+          cursor: "pointer",
+        }}
+        onClick={() => handleDeleteItemFromCard(card.id)}
+      >
+        X
       </div>
     </CartList>
   );

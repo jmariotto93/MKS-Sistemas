@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Footer } from "./components/Footer/Footer";
 import { Header } from "./components/Header/Header";
-import { Products } from "./components/Products/Products";
 import { Cart } from "./components/Cart/Cart";
+import { CardList } from "./interfaces/CartList";
+import { Products } from "./components/Products/Products";
 
 function App() {
   const [isCardModalOpen, setIsCardModalOpen] = useState(false);
+  const [cardItems, setcardItems] = useState<CardList[]>([]);
+
+  console.log(cardItems);
 
   function handleOpenCardModal() {
     setIsCardModalOpen((prev) => !prev);
@@ -13,10 +17,17 @@ function App() {
 
   return (
     <div>
-      {isCardModalOpen && <Cart handleOpenCardModal={handleOpenCardModal} />}
+      {isCardModalOpen && (
+        <Cart
+          setcardItems={setcardItems}
+          cardItems={cardItems}
+          handleOpenCardModal={handleOpenCardModal}
+        />
+      )}
 
       <Header handleOpenCardModal={handleOpenCardModal} />
-      <Products />
+
+      <Products setcardItems={setcardItems} />
 
       <div>
         <Footer />
