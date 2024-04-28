@@ -7,6 +7,7 @@ import {
 } from "./styles";
 import { CardList } from "../../interfaces/CartList";
 import { CartItem } from "../CartItem/CartItem";
+import { useEffect, useState } from "react";
 
 interface CartProps {
   handleOpenCardModal(): void;
@@ -19,15 +20,6 @@ export const Cart: React.FC<CartProps> = ({
   cardItems,
   setcardItems,
 }) => {
-  function handleDeleteItemFromCard(productId: number) {
-    const result =
-      cardItems?.filter((product) => product.id !== productId) || [];
-
-    localStorage.setItem("card-products", JSON.stringify(result));
-
-    setcardItems(result);
-  }
-
   const totalPriceArray = cardItems?.map((product) =>
     parseFloat(product.price)
   );
@@ -37,12 +29,31 @@ export const Cart: React.FC<CartProps> = ({
     0
   );
 
-  console.log(totalPriceSum);
+  const [totalPriceSumState, setTotalPriceSumState] = useState<number>(
+    totalPriceSum || 0
+  );
+
+  function handleDeleteItemFromCard(productId: number) {
+    const result =
+      cardItems?.filter((product) => product.id !== productId) || [];
+
+    localStorage.setItem("card-products", JSON.stringify(result));
+
+    setcardItems(result);
+  }
 
   const formatoBrasileiro = new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
   });
+
+  useEffect(() => {
+    if (totalPriceSum) {
+      setTotalPriceSumState(totalPriceSum);
+    } else {
+      setTotalPriceSumState(0);
+    }
+  }, [cardItems, totalPriceSum]);
 
   return (
     <CartContainer
@@ -65,6 +76,7 @@ export const Cart: React.FC<CartProps> = ({
       >
         {cardItems?.map((card, index) => (
           <CartItem
+            setTotalPriceSumState={setTotalPriceSumState}
             handleDeleteItemFromCard={handleDeleteItemFromCard}
             key={`${card.id}${index}`}
             card={card}
@@ -78,8 +90,7 @@ export const Cart: React.FC<CartProps> = ({
 
       <TotalPriceCart>
         <span>Total: </span>
-        {/* @ts-expect-error price*/}
-        <span>{formatoBrasileiro.format(totalPriceSum)}</span>
+        <span>{formatoBrasileiro.format(totalPriceSumState)}</span>
       </TotalPriceCart>
 
       <PurchaseButton>Finalizar compra</PurchaseButton>
