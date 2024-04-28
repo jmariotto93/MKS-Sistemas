@@ -60,7 +60,7 @@ export const TitleCart = styled.h1`
 export const TotalPriceCart = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 40px 60px 0 47px;
+  padding: 160px 60px 0 47px;
 
   span {
     width: 700;
