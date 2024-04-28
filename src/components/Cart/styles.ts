@@ -60,13 +60,26 @@ export const TitleCart = styled.h1`
 export const TotalPriceCart = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 160px 60px 0 47px;
+  padding: 140px 60px 0 47px;
+  position: absolute;
+  bottom: 90px;
+  gap: 160px;
 
   span {
     width: 700;
     font-size: 28px;
     line-height: 15px;
     color: ${colors.white};
+  }
+
+  @media screen and (max-width: 900px) {
+    padding: 0 60px 0 40px;
+    gap: 140px;
+  }
+
+  @media screen and (max-width: 485px) {
+    padding: 0 60px 0 20px;
+    gap: 30px;
   }
 `;
 
