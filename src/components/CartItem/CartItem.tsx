@@ -1,6 +1,6 @@
 import { CardList } from "../../interfaces/CartList";
-import { CartList } from "./styles";
-import { useState } from "react";
+import { ButtonDeleteItemFromCard, CartList } from "./styles";
+import { useEffect, useState } from "react";
 
 interface CardItemProps {
   card: CardList;
@@ -8,11 +8,40 @@ interface CardItemProps {
 }
 
 export const CartItem = ({ card, handleDeleteItemFromCard }: CardItemProps) => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
+  const [totalPrice, setTotalPrice] = useState<number>(parseFloat(card.price));
+
+  useEffect(() => {
+    setTotalPrice(parseFloat(card.price) * count);
+  }, [count, card.price]);
+
+  // const decrement = () => {
+  //   if (count > 1) {
+  //     setCount(count - 1);
+  //     setTotalPrice(totalPrice - parseFloat(card.price));
+  //   }
+  // };
+
+  // const increment = () => {
+  //   setCount(count + 1);
+  //   setTotalPrice(totalPrice + parseFloat(card.price));
+  // };
 
   const decrement = () => {
-    if (count > 0) {
-      setCount((count) => count - 1);
+    if (count === 1) {
+      handleDeleteItemFromCard(card.id);
+    } else if (count > 0) {
+      setCount(count - 1);
+      setTotalPrice(totalPrice - parseFloat(card.price));
+    }
+  };
+
+  const increment = () => {
+    if (count > 8) {
+      alert("Ops!!! Não temos produto suficiente em estoque.");
+    } else {
+      setCount(count + 1);
+      setTotalPrice(totalPrice + parseFloat(card.price));
     }
   };
 
@@ -28,43 +57,25 @@ export const CartItem = ({ card, handleDeleteItemFromCard }: CardItemProps) => {
 
         <div className="divCount">
           <div className="div-button">
-            <button className="button-count" onClick={() => decrement()}>
+            <button className="button-count" onClick={decrement}>
               -
             </button>
             <p>{count}</p>
-            <button
-              className="button-count"
-              onClick={() => setCount((count) => count + 1)}
-            >
+            <button className="button-count" onClick={increment}>
               +
             </button>
           </div>
           <div className="container-price-item">
-            <p className="price-item-cart">R${Number(card.price).toFixed(0)}</p>
+            <p className="price-item-cart">R${totalPrice.toFixed(0)}</p>
           </div>
         </div>
       </div>
 
-      <div
-        style={{
-          position: "absolute",
-          right: -6,
-          top: -6,
-          width: 18,
-          height: 18,
-          color: "white",
-          backgroundColor: "#000",
-          display: "inline-flex",
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius: 25,
-          fontSize: 12,
-          cursor: "pointer",
-        }}
+      <ButtonDeleteItemFromCard
         onClick={() => handleDeleteItemFromCard(card.id)}
       >
         X
-      </div>
+      </ButtonDeleteItemFromCard>
     </CartList>
   );
 };

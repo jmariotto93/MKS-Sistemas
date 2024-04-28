@@ -13,6 +13,12 @@ export const CartList = styled.div`
   align-items: center;
   gap: 20px;
   position: relative;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    /* background-color: #084197; */
+    transform: translateY(-3px);
+  }
 
   img {
     width: 46px;
@@ -194,5 +200,27 @@ export const CartList = styled.div`
       color: ${colors.white};
       padding: 0;
     }
+  }
+`;
+
+export const ButtonDeleteItemFromCard = styled.button`
+  position: absolute;
+  right: -6px;
+  top: -6px;
+  width: 18px;
+  height: 18px;
+  color: white;
+  background-color: #000;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  font-size: 12px;
+  cursor: pointer;
+  border: none;
+
+  &:hover {
+    /* background-color: #084197; */
+    transform: translateY(-1px);
   }
 `;

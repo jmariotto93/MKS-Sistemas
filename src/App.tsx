@@ -7,9 +7,12 @@ import { Products } from "./components/Products/Products";
 
 function App() {
   const [isCardModalOpen, setIsCardModalOpen] = useState(false);
-  const [cardItems, setcardItems] = useState<CardList[]>([]);
 
-  console.log(cardItems);
+  const cardItemsFromLocalStorage = localStorage.getItem("card-products");
+
+  const [cardItems, setcardItems] = useState<CardList[]>(
+    (cardItemsFromLocalStorage && JSON.parse(cardItemsFromLocalStorage)) || []
+  );
 
   function handleOpenCardModal() {
     setIsCardModalOpen((prev) => !prev);
@@ -25,7 +28,10 @@ function App() {
         />
       )}
 
-      <Header handleOpenCardModal={handleOpenCardModal} />
+      <Header
+        cardLength={cardItems.length}
+        handleOpenCardModal={handleOpenCardModal}
+      />
 
       <Products setcardItems={setcardItems} />
 

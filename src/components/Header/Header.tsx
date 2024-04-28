@@ -3,9 +3,10 @@ import { HeaderContainer, LogoWrapper } from "./styles";
 
 interface HeaderProps {
   handleOpenCardModal(): void;
+  cardLength: number;
 }
 
-const Header = ({ handleOpenCardModal }: HeaderProps) => {
+const Header = ({ handleOpenCardModal, cardLength }: HeaderProps) => {
   return (
     <>
       <HeaderContainer>
@@ -14,7 +15,7 @@ const Header = ({ handleOpenCardModal }: HeaderProps) => {
           <span>Sistemas</span>
         </LogoWrapper>
 
-        <ButtonCart price="0" onClick={handleOpenCardModal} />
+        <ButtonCart price={cardLength} onClick={handleOpenCardModal} />
       </HeaderContainer>
     </>
   );

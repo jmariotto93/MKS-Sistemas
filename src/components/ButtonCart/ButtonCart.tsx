@@ -3,7 +3,7 @@ import { ButtonCartContainer } from "./styles";
 import { ComponentProps } from "react";
 
 interface ButtonCartProps extends ComponentProps<"button"> {
-  price: string;
+  price: number;
 }
 
 export const ButtonCart: React.FC<ButtonCartProps> = ({ price, ...rest }) => {

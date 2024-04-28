@@ -29,6 +29,17 @@ export const CartContainer = styled(motion.div)`
     background: ${colors.white};
   }
 
+  .empty-cart {
+    padding-top: 30px;
+    opacity: 0.5;
+    text-align: center;
+    width: 100%;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 33px;
+    color: ${colors.white};
+  }
+
   @media screen and (max-width: 485px) {
     width: 330px;
   }
@@ -44,4 +55,37 @@ export const TitleCart = styled.h1`
   font-size: 27px;
   line-height: 33px;
   color: ${colors.white};
+`;
+
+export const TotalPriceCart = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 60px 0 47px;
+
+  span {
+    width: 700;
+    font-size: 28px;
+    line-height: 15px;
+    color: ${colors.white};
+  }
+`;
+
+export const PurchaseButton = styled.button`
+  width: 100%;
+  height: 67px;
+  background-color: ${colors.black};
+  position: absolute;
+  bottom: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: ${colors.white};
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+
+  &:hover {
+    background-color: #333333;
+  }
 `;

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { colors } from "../../theme/theme";
 
 export const ContainerMain = styled.div`
@@ -142,5 +142,73 @@ export const ButtonAddCart = styled.button`
   &:hover {
     background-color: #084197;
     transform: translateY(3px, 0);
+  }
+`;
+
+// Squeleton
+
+const blinkAnimation = keyframes`
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+`;
+
+export const ProductSkeleton = styled.div`
+  width: 200px;
+  height: 290px;
+  display: flex;
+  border-radius: 6px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #dddddd;
+  box-shadow: 0 0 16px 1px rgba(0, 0, 0, 0.1);
+  animation: ${blinkAnimation} 1s linear infinite;
+
+  @media screen and (max-width: 485px) {
+    width: 218px;
+  }
+`;
+
+export const PriceProductSqueleton = styled.div`
+  width: 64px;
+  height: 26px;
+  border-radius: 5px;
+  background-color: #ddd;
+  text-align: center;
+  animation: ${blinkAnimation} 1s linear infinite;
+`;
+
+export const BoxCardSqueleton = styled.div`
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+
+  .is-loading {
+    width: 200px;
+    height: 250px;
+    display: flex;
+    border-radius: 6px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #eee;
+    background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+    border-radius: 5px;
+    background-size: 200% 100%;
+    -webkit-animation: 1.5s shine linear infinite;
+    animation: 1.5s shine linear infinite;
+  }
+
+  @-webkit-keyframes shine {
+    to {
+      background-position-x: -200%;
+    }
+  }
+
+  @keyframes shine {
+    to {
+      background-position-x: -200%;
+    }
   }
 `;

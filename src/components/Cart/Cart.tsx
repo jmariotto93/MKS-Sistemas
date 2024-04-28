@@ -1,5 +1,10 @@
 import { IoMdCloseCircle } from "react-icons/io";
-import { CartContainer, TitleCart } from "./styles";
+import {
+  CartContainer,
+  PurchaseButton,
+  TitleCart,
+  TotalPriceCart,
+} from "./styles";
 import { CardList } from "../../interfaces/CartList";
 import { CartItem } from "../CartItem/CartItem";
 
@@ -18,8 +23,26 @@ export const Cart: React.FC<CartProps> = ({
     const result =
       cardItems?.filter((product) => product.id !== productId) || [];
 
+    localStorage.setItem("card-products", JSON.stringify(result));
+
     setcardItems(result);
   }
+
+  const totalPriceArray = cardItems?.map((product) =>
+    parseFloat(product.price)
+  );
+
+  const totalPriceSum = totalPriceArray?.reduce(
+    (prev, current) => current + prev,
+    0
+  );
+
+  console.log(totalPriceSum);
+
+  const formatoBrasileiro = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
 
   return (
     <CartContainer
@@ -48,40 +71,18 @@ export const Cart: React.FC<CartProps> = ({
           />
         ))}
 
-        {cardItems?.length === 0 && <p>Nenhum item no carrinho</p>}
+        {cardItems?.length === 0 && (
+          <p className="empty-cart">Nenhum item no carrinho</p>
+        )}
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          paddingLeft: 47,
-          paddingRight: 60,
-        }}
-      >
-        <span>Total</span>
+      <TotalPriceCart>
+        <span>Total: </span>
+        {/* @ts-expect-error price*/}
+        <span>{formatoBrasileiro.format(totalPriceSum)}</span>
+      </TotalPriceCart>
 
-        <span>teste</span>
-      </div>
-
-      <div
-        style={{
-          height: 97,
-          width: "100%",
-          backgroundColor: "#000",
-          position: "absolute",
-          bottom: 0,
-          fontSize: 28,
-          fontWeight: 700,
-          color: "#FFFF",
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer",
-        }}
-      >
-        Finalizar compra
-      </div>
+      <PurchaseButton>Finalizar compra</PurchaseButton>
     </CartContainer>
   );
 };

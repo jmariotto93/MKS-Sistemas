@@ -8,6 +8,7 @@ import {
   PriceProduct,
   ButtonAddCart,
   ContainerMain,
+  BoxCardSqueleton,
 } from "./styles";
 import { useProductsQuery } from "../../hooks/useProducts";
 import { motion } from "framer-motion";
@@ -20,10 +21,19 @@ interface ProdocutsProps {
 export const Products = ({ setcardItems }: ProdocutsProps) => {
   const { data, isLoading, isError } = useProductsQuery();
 
-  // if (isLoading) return <div>Carregando...</div>;
   if (isError) return <div>Ocorreu um erro ao buscar os produtos</div>;
 
   function handleAddProductToCard(product: CardList) {
+    const productsFromLocalStorage = localStorage.getItem("card-products");
+    const productsParsed =
+      productsFromLocalStorage && JSON.parse(productsFromLocalStorage);
+
+    const productsArray = productsParsed
+      ? [...productsParsed, product]
+      : [product];
+
+    localStorage.setItem("card-products", JSON.stringify(productsArray));
+
     setcardItems((prev) => {
       if (prev) {
         return [...prev, product];
@@ -41,9 +51,21 @@ export const Products = ({ setcardItems }: ProdocutsProps) => {
     >
       <ContainerMain>
         {isLoading ? (
-          <div className="ProductSkeleton" style={{ height: "100vh" }}>
-            loading
-          </div>
+          <ProductsContainer>
+            {Array.from({ length: 8 }).map((_, index) => {
+              return (
+                <BoxCardSqueleton key={index}>
+                  <div className="is-loading  loading">
+                    <div className="image"></div>
+                    <div className="content">
+                      <h4></h4>
+                      <div className="description"></div>
+                    </div>
+                  </div>
+                </BoxCardSqueleton>
+              );
+            })}
+          </ProductsContainer>
         ) : (
           <ProductsContainer>
             {data?.products?.map((product) => {
